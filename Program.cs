@@ -1,5 +1,5 @@
 ﻿using System;
-using EmployeeWage;
+
 
 namespace EmployeeWage
 {
@@ -7,49 +7,77 @@ namespace EmployeeWage
     {
         class Program
         {
-            public const int IS_FULL_TIME = 1;
-            public const int IS_PART_TIME = 2;
-            public const int EMP_RATE_PER_HOUR = 20;
-            public const int WR_DAYS_IN_A_MONTH = 19;
-            public const int NU_OF_WORKING_HRS_IN_A_MONTH = 100;
+            //Declaring Constant Variable
+            public const int FULL_TIME = 1;
+            public const int PART_TIME = 2;
+            //  private static int maxHoursPerMonth;
+            public string company;
+            public int WAGE_PER_HOUR;
+            public int maxHoursPerMonth;
+            public int max_working_days;
+            public int wage_per_hour;
 
-            public static int computeEmpWage()
+            public Program(string company, int wage_per_hour, int max_working_days, int maxHoursPerMonth)
             {
-                //Variables
-                int empHrs = 0;
-                int totalEmpHrs = 0;
-                int totalWorkingDays = 0;
+                this.company = company;
+                this.wage_per_hour = wage_per_hour;
+                this.max_working_days = max_working_days;
+                this.maxHoursPerMonth = maxHoursPerMonth;
+            }
+            public void ComputeWage()
+            {
+                //Console.WriteLine("Welcome to employee wage computation");
+                //Creating a Random Function
+                int empHours = 0;
+                int empDailyWage = 0;
+                int workingDays = 1;
+                int workingHrs = 0;
+                int totalWage = 0;
 
-                //Calculations
-                while (totalEmpHrs <= NU_OF_WORKING_HRS_IN_A_MONTH && totalWorkingDays <= WR_DAYS_IN_A_MONTH)
+                Random r = new Random();
+
+                while (workingDays <= max_working_days && workingHrs <= maxHoursPerMonth)
                 {
-                    totalWorkingDays++;
-                    Random random = new Random();
-                    int empCheck = random.Next(3);
-                    switch (empCheck)
+                    //Calling the next method in Random Class
+                    int empAttendance = r.Next(0, 3);
+                    switch (empAttendance)
                     {
-                        case IS_FULL_TIME:
-                            empHrs = 8;
+                        case FULL_TIME:
+                            // Console.WriteLine("Employee is present for full-time");
+                            empHours = 8;
                             break;
-                        case IS_PART_TIME:
-                            empHrs = 4;
+                        case PART_TIME:
+                            //Console.WriteLine("Employee is present for part-time");
+                            empHours = 4;
                             break;
                         default:
-                            empHrs = 0;
+                            //Console.WriteLine("Employee is absent");
                             break;
-                    }
-                    totalEmpHrs += empHrs;
-                    Console.WriteLine("Days : " + totalWorkingDays + " Emp Hrs : " + empHrs);
-                }
-                int totalEmpWage = totalEmpHrs * EMP_RATE_PER_HOUR;
-                Console.WriteLine("Total Emp Wage : " + totalEmpWage);
-                return totalEmpWage;
 
+                    }
+                    empDailyWage = empHours * wage_per_hour;
+                    totalWage += empDailyWage;
+                    workingHrs += empHours;
+                    if (empAttendance != 0)
+                    {
+                        workingDays++;
+                    }
+                }
+                Console.WriteLine("Company Name:" + company);
+                Console.WriteLine("Working Hours :" + workingHrs);
+                Console.WriteLine("Employee Wage Per day :" + empDailyWage);
+                Console.WriteLine("Working days in a month :" + workingDays);
+                Console.WriteLine("Employee Wage for 20 working days :" + totalWage);
 
             }
             static void Main(string[] args)
             {
-                computeEmpWage();
+                Console.WriteLine("Welcome to employee wage computation");
+                Program tvsnext = new Program("BridgeLabzs", 80, 12, 90);
+                tvsnext.ComputeWage();
+                Program wipro = new Program("Apple", 55, 22, 110);
+                wipro.ComputeWage();
+
             }
         }
     }
